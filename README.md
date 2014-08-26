@@ -38,3 +38,16 @@ This configuration is intended to be used for local testing only.
 5. Once everything has completed, launch the Koken website in a browser on the same machine:
 
         http://192.168.33.10
+
+# Theme Development
+
+Rather than developing themes directly in the VM, I edit them on my host workstation and import them into the VM for testing.  This is a bit cumbersome, but easier (for me) than editing the files in the terminal.
+
+1. The Vagrantfile has a synced folder from themes/ to /data/themes.  This folder is just used here as temp storage.  The actual themes folder is /data/koken/www/storage/themes.
+
+2. Symlinks or synced folders cannot be loaded as themes, so Vagrant cannot sync a theme directly into the themes folder.  Instead, I manually copy themes from the synced folder into the themes folder:
+
+        vagrant ssh
+        sudo cp -r -f /data/koken/storage/themes/* /data/koken/www/storage/themes/
+
+`scp` could also be used to push/pull data between the host and the VM.

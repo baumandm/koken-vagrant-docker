@@ -16,6 +16,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Create a private network, which allows host-only access to the machine
     config.vm.network "private_network", ip: "192.168.33.10"
 
+    # Synced folder for theme development
+    config.vm.synced_folder "themes/", "/data/themes"
+
     # Configure Virtualbox VM settings
     config.vm.provider "virtualbox" do |vb|
         #vb.gui = true
@@ -29,5 +32,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Install Koken and dependencies via this shell script
     # Source: https://github.com/koken/docker-koken-lemp
     config.vm.provision "shell", path: "https://gist.githubusercontent.com/bradleyboy/48b67b5e9ebf91031a19/raw/create_koken.sh"
+
+    # Install nsenter and docker-enter
+    # Source: https://github.com/jpetazzo/nsenter
+    config.vm.provision "shell", 
+        inline: "docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter"
 
 end
